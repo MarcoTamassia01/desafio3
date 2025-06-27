@@ -51,13 +51,13 @@ public class ClientController {
 	public ResponseEntity<ClientDTO>created(@Valid @RequestBody ClientDTO clientDTO){
 		logger.info("Criando um novo cliente com o nome: {}",clientDTO.getName());
 		ClientDTO result = clientService.created(clientDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(clientDTO.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri();
 		return ResponseEntity.created(uri).body(result);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<ClientDTO>update(@PathVariable Long id, @Valid @RequestBody ClientDTO clientDTO){
-		logger.info("Atualizando o cliente com o id: {}",clientDTO.getId());
+		logger.info("Atualizando o cliente com o id: {}",id);
 		ClientDTO resultUpdated = clientService.update(id, clientDTO);
 		return ResponseEntity.ok(resultUpdated);
 	}
