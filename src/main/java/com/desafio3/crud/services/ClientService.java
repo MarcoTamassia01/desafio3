@@ -1,7 +1,5 @@
 package com.desafio3.crud.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,21 +17,19 @@ import com.desafio3.crud.services.exceptions.ResourceNotFoundException;
 @Service
 public class ClientService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
+	
 	
 	@Autowired
 	private ClientRepository clientRepository;
 	
 	@Transactional(readOnly = true)
 	public Page<ClientDTO> findAll(Pageable pageable){
-		logger.info("Listando todos os Clients");
 		Page<Client> result = clientRepository.findAll(pageable);
 		return result.map(x -> new ClientDTO(x));
 	}
 	
 	@Transactional(readOnly = true)
 	public ClientDTO findById(Long id) {
-		logger.info("Buscando um cliente com o id: {}",id);
 		Client entity = clientRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi possivel encontrar um cliente com o id: "+id));
 		return new ClientDTO(entity);
